@@ -1,0 +1,33 @@
+:root {
+    --dark-blue: #112D4E;
+    --blue: #3F72AF;
+    --light-blue: #DBE2EF;
+    --white: #F9F7F7;
+}
+
+body {
+    background-color: var(--dark-blue);
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    color: var(--light-blue);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    border-bottom: var(--light-blue) solid 2px;
+}
+
+header img {
+    width: 5em;
+    color: var(--light-blue);
+    filter: invert(86%) sepia(21%) saturate(109%) hue-rotate(180deg) brightness(101%) contrast(94%);
+}
+
+nav i {
+    text-decoration: none;
+    font-size: 1.25em;
+    color: var(--light-blue)
+}
