@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allItems = []; // To store all items fetched
     let allAssets = []; // To store all assets fetched
     let currentItems = []; // To store currently displayed items
-    const itemsPerPage = 10;
+    const itemsPerPage = 12;
     let currentPage = 1;
     let totalPages = 1;
 
@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingSpinner = document.getElementById('loading-spinner');
     const prevPageButton = document.getElementById('prev-page');
     const nextPageButton = document.getElementById('next-page');
+    const firstPageButton = document.getElementById('first-page');
+    const lastPageButton = document.getElementById('last-page');
     const pageInfo = document.getElementById('page-info');
 
     // Show spinner initially
@@ -70,32 +72,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updateCounter(count) {
-        bookCounter.textContent = `Archer has ${count} book${count !== 1 ? 's' : ''}`;
+    function updateCounter(count, searchString = '') {
+        if (searchString) {
+            bookCounter.textContent = `Archer has ${count} book${count !== 1 ? 's' : ''} matching "${searchString}"`;
+        } else {
+            bookCounter.textContent = `Archer has ${count} book${count !== 1 ? 's' : ''}`;
+        }
     }
 
-    function updatePageInfo() {
-        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-        prevPageButton.disabled = currentPage === 1;
-        nextPageButton.disabled = currentPage === totalPages;
+    function updatePageInfo({ showPaging } = { showPaging: true }) {
+        if (showPaging) {
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevPageButton.disabled = currentPage === 1;
+            nextPageButton.disabled = currentPage === totalPages;
+            firstPageButton.disabled = currentPage === 1;
+            lastPageButton.disabled = currentPage === totalPages;
+            prevPageButton.style.display = 'inline-block';
+            firstPageButton.style.display = 'inline-block';
+            nextPageButton.style.display = 'inline-block';
+            lastPageButton.style.display = 'inline-block';
+        } else {
+            pageInfo.textContent = '';
+            prevPageButton.style.display = 'none';
+            firstPageButton.style.display = 'none';
+            nextPageButton.style.display = 'none';
+            lastPageButton.style.display = 'none';
+        }
     }
 
     searchBar.addEventListener('keyup', (e) => {
         const searchString = normalizeString(e.target.value);
-        const filteredItems = allItems.filter(item =>
-            normalizeString(item.fields.book).includes(searchString)
-        );
-        totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-        currentPage = 1;
-        currentItems = filteredItems.slice(0, itemsPerPage);
-        displayCards(currentItems, allAssets);
-        updatePageInfo();
+        if (searchString) {
+            const filteredItems = allItems.filter(item =>
+                normalizeString(item.fields.book).includes(searchString)
+            );
+            displayCards(filteredItems, allAssets);
+            updateCounter(filteredItems.length, searchString);
+            updatePageInfo({ showPaging: false });
+        } else {
+            currentPage = 1;
+            totalPages = Math.ceil(allItems.length / itemsPerPage);
+            currentItems = allItems.slice(0, itemsPerPage);
+            displayCards(currentItems, allAssets);
+            updateCounter(allItems.length);
+            updatePageInfo();
+        }
     });
 
     prevPageButton.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
             updatePageContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     });
 
@@ -103,6 +131,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentPage < totalPages) {
             currentPage++;
             updatePageContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+
+    firstPageButton.addEventListener('click', () => {
+        if (currentPage !== 1) {
+            currentPage = 1;
+            updatePageContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+
+    lastPageButton.addEventListener('click', () => {
+        if (currentPage !== totalPages) {
+            currentPage = totalPages;
+            updatePageContent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     });
 
