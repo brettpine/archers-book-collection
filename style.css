@@ -148,6 +148,29 @@ nav i {
     color: var(--light-blue);
 }
 
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border-top: var(--light-blue) solid 2px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 10px 20px;
+    background-color: var(--blue);
+    color: var(--white);
+    text-decoration: none;
+    flex-wrap: wrap;
+}
+
+footer a {
+    color: var(--light-blue);
+    text-decoration: none;
+}
+
+.logo-link {
+    font-size: 0.65em;
+}
 /* Media query for tablets */
 @media(min-width: 600px) {
     .card {
