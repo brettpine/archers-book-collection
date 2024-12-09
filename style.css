@@ -22,7 +22,7 @@
 }
 
 body {
-    background-color: var(--dark-blue);
+    background: linear-gradient(135deg, var(--dark-blue), var(--blue));
     color: var(--light-blue);
     font-family: "Roboto", sans-serif;
     margin: 0;
@@ -59,6 +59,12 @@ nav i {
     font-size: 2em;
     color: var(--white);
     margin-left: 10px;
+    transition: 0.3s ease;
+}
+
+nav i:hover {
+    color: var(--dark-blue);
+    scale: 1.2;
 }
 
 .container {
@@ -98,7 +104,7 @@ nav i {
     background-color: var(--light-blue);
     border: 1px solid var(--blue);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     margin: 10px;
     padding: 20px;
     width: 80%;
@@ -107,6 +113,7 @@ nav i {
 
 .card:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
 }
 
 .card img {
@@ -138,9 +145,17 @@ nav i {
     cursor: pointer;
 }
 
+#pagination-controls button:hover {
+    background-color: var(--light-blue);
+    color: var(--dark-blue);
+    transform: scale(1.05);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
 #pagination-controls button:disabled {
     background-color: var(--light-blue);
     color: var(--white);
+    transform: scale(1);
 }
 
 #page-info {
@@ -166,6 +181,11 @@ footer {
 footer a {
     color: var(--light-blue);
     text-decoration: none;
+    transition: 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--dark-blue);
 }
 
 .logo-link {
